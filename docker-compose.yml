@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  mongo:
+    image: mongo
+    restart: always
+    volumes:
+      - "db-data:/data/db"
+    environment: 
+      MONGODB_INITDB_ROOT_USERNAME: username
+      MONGODB_INITDB_ROOT_PASSWORD: password
+    networks:
+      - back-tier
+
+  frontend:
+    image: frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - front-tier
+
+  backend:
+    image: backend
+    ports:
+      - "3001:3001"
+    networks:
+      - front-tier
+      - back-tier
+
+volumes:
+  db-data:
+networks:
+  front-tier:
+  back-tier:
